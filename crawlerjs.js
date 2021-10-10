@@ -57,8 +57,6 @@ function checkForm()
       if(oldimgs.length !== 0)
       {
         toContainer = oldimgs[this.getAttribute("data-fill")];
-        //tCCenter = centerOfElem(toContainer);
-        //window.moveTo(tCCenter.X,tCCenter.Y);
         if(toContainer) toContainer.scrollIntoView({block: "center"});
       }
     });
@@ -68,17 +66,14 @@ function checkForm()
 
     var img = document.createElement('img');
     img.id = "img" + i;
-    img.src = bdir + i + "." + ext;
+    img.src = bdir + i + ext;
 
     img.onerror = function() {
         finished = true;
     };
     if(finished) continue;
-    img.addEventListener("load", function () {
-      if(this.naturalWidth > MAX_FILL_FACTOR*screen.width) this.width = MAX_FILL_FACTOR*screen.width;
-      if(this.naturalHeight > MAX_FILL_FACTOR*screen.height) this.height = MAX_FILL_FACTOR*screen.height;
-    })
     imgcontainer.appendChild(img);
+
 
     nextbutton = document.createElement('button');
     nextbutton.setAttribute("data-fill", fillNum + 1);
@@ -88,13 +83,9 @@ function checkForm()
     {
       NNN++;
       toContainer = oldimgs[this.getAttribute("data-fill")];
-      //toContainer = imgcontainer;
-      //tCCenter = centerOfElem(toContainer);
-      //window.moveTo(tCCenter.X,tCCenter.Y);
       if(toContainer) toContainer.scrollIntoView({block: "center"});
     });
     imgcontainer.appendChild(nextbutton);
-
 
 
     document.getElementById('body').appendChild(imgcontainer);
