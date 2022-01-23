@@ -1,9 +1,10 @@
-oldimgs = [];
+let oldimgs = [];
 let fillNum = 0;
-finished = false;
-MAX_FILL_FACTOR = 0.9;
-PPP=0;
-NNN=0;
+let finished = false;
+let PPP=0;
+let NNN=0;
+
+const MAX_FILL_FACTOR = 0.9;
 
 function centerOfElem(elem)
 {
@@ -22,32 +23,28 @@ function checkForm()
   finished = false;
   fillNum = 0;
 
-  oldimgs.forEach((item, i) => {
-   item.remove();
- });
+  oldimgs.forEach(item => item.remove());
+  oldimgs = [];
 
-  var bdir = document.getElementById('basedir').value;
+  const baseDir = document.getElementById('basedir').value;
 
-  var startnum = Number(document.getElementById('startnum').value);
-  if(startnum == null || startnum == "") startnum = Number(1);
-  var count = Number(document.getElementById('imgcount').value);
+  let startnum = Number(document.getElementById('startnum').value);
+  if(startnum == null || startnum == "") startnum = 1;
+  const count = Number(document.getElementById('imgcount').value);
 
-  var ext = document.getElementById('ext').value;
+  const postString = document.getElementById('ext').value;
 
-  console.log(startnum + count);
+  let nextbutton;
 
-  var nextbutton;
-
-  for(var i = startnum; i < startnum + count; i++)
+  for(let i = startnum; i < startnum + count; i++)
   {
     finished = false;
 
-    var imgcontainer = document.createElement('div');
+    const imgcontainer = document.createElement('div');
     imgcontainer.classList.add("imageContainer");
     imgcontainer.id = "container" + i;
 
-
-    prevbutton = document.createElement('button');
+    const prevbutton = document.createElement('button');
     prevbutton.classList.add("transitionButton");
     if(oldimgs.length === 0) prevbutton.style.opacity = 0;
     prevbutton.innerHTML = "PREV";
@@ -64,9 +61,9 @@ function checkForm()
     imgcontainer.appendChild(prevbutton);
 
 
-    var img = document.createElement('img');
+    const img = document.createElement('img');
     img.id = "img" + i;
-    img.src = bdir + i + ext;
+    img.src = baseDir + i + postString;
 
     img.onerror = function() {
         finished = true;
@@ -92,6 +89,8 @@ function checkForm()
     oldimgs.push(imgcontainer);
     fillNum++;
   }
-
   if(nextbutton) nextbutton.style.opacity = 0;
+
+  oldimgs.slice(fillNum).forEach(item => item.remove());
+  oldimgs.splice(fillNum);
 }
